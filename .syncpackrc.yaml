@@ -1,0 +1,14 @@
+filter: react
+versionGroups:
+  # This config wants to check webpack, but since it's not matched by the filter above, it gets ignored.
+  - packages: ["**"]
+    dependencies: ["webpack"]
+  # This checks that react packages in dependencies and devDependencies all match the same version,
+  # and doesn't check peer deps (good),
+  # but the catch-all group then requires that react versions in all peerDependencies are the same (bad).
+  # What we should be able to express here is that for react, we only need dev and prod versions to align.
+  # We could add `peer: false` at the top, but that would disable peer checking for all dependencies.
+  - packages: ["**"]
+    dependencies: ["react", "react-dom"]
+    # peer dependencies can be looser
+    dependencyTypes: ["dependencies", "devDependencies"]
